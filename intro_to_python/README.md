@@ -65,7 +65,7 @@ To get started, all you have to do is launch an interactive Python shell by typi
 ```python
 $ python3
 
-Python 3.7.6 (default, Aug 13 2021, 16:40:31) 
+Python 3.14.6.6 (default, Jun 25 2026, 16:15:31) 
 [Clang 12.0.5 (clang-1205.0.22.11)] on darwin
 Type "help", "copyright", "credits" or "license" for more information.
 >>>
@@ -1318,9 +1318,25 @@ Challenges are listed by difficulty, with the first challenge being the "easiest
 	    print('Try again!')
 	    print('You should find them at position 5 and position 1')
 	```
-   
- 
-   
+
+## <a name="challs"></a>Bonus Advanced Challenges
+To access the advanced challenge files, you must clone into this repo and change directories to the `challenges/advanced_challenges` directory:
+
+```
+$ cd ~/foundational_hpc_skills/intro_to_python/challenges
+$ git clone https://github.com/cloveday098/NGP_hands_on_lessons.git
+$ cd ~/NGP_hands_on_lessons/intro_to_python/challenges/advanced_challenges
+```
+Alternatively, you can create your own Python files and try to solve the challenges from their Kattis links. You can access the challenges at their links below.
+* Harshad Numbers: https://open.kattis.com/problems/harshadnumbers
+* Champernowne Verification: https://open.kattis.com/problems/champernowneverification
+
+If you are having trouble completing the challenges, potential solutions are provided in the `solutions` sub-directory.
+
+```
+$ cd ~/foundational_hpc_skills/intro_to_python/challenges/solutions
+```
+
 ## <a name="refs"></a>Additional Resources
 
 * [Python Website](https://www.python.org/)
@@ -1328,3 +1344,4 @@ Challenges are listed by difficulty, with the first challenge being the "easiest
 * [Python Tutorial](https://docs.python.org/3/tutorial/introduction.html)
 * [Including Variables in Strings](https://realpython.com/python-f-strings/)
 * [User Input Tutorial](https://www.geeksforgeeks.org/python-3-input-function/)
+* [Maryville College CSC Resource Page](https://csclub.maryvillecollege.edu/resources)
