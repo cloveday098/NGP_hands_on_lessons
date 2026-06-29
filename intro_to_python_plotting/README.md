@@ -17,13 +17,12 @@ Packages in this notebook:
 - Works seamlessly with NumPy and Pandas
 
 ### **Table of Contents**
-
-* [Getting Started with Numpy](getting-started)
 * [**Matplotlib Basics**](#packages)
+    * [Getting Started with Numpy](#getting-started)
     * [1. Figure and Axes](#figs-and-axes)
     * [2. Customizing Plots: Colors, Styles, Markers, and Labels](#customize)
     * [3. Scatter Plots](#scatter)
-    * [4. Bar Charts](#bar)
+    * [4. Bar Charts](#bars)
     * [5. Histograms and Pie Charts](#hists-and-pies)
     * [6. Pandas Dataframes](#pandas)
     * [7. Subplots](#subplots)
@@ -34,22 +33,15 @@ Packages in this notebook:
 * [Extra Content](#optional)
 
 ### <a name="packages"></a> Import Packages
-
 ```python
 import matplotlib.pyplot as plt
 import numpy as np
-
-# For Jupyter notebooks, use this magic command to display plots inline
-%matplotlib inline
-
-# Optional: Set style for better-looking plots
-plt.style.use('default')  # You can also use 'seaborn', 'ggplot', etc.
 ```
 
 > **Note:** How you use `import package_name as package_shorthand` comes down to personal preference. For your future work, feel free to use whichever `package_shorthand` you prefer.
 
-### Getting Started with NumPy <a class="anchor" id="getting-started"></a>
 
+### <a name="getting-started"></a> Getting Started with NumPy
 NumPy is most known for its implementation of arrays, but you can also use built-in mathematical operations (e.g., trig functions).
 
 ```python
@@ -75,7 +67,6 @@ y3 = np.random.rand(1000) # num, from interval [0,1) by default
 ```
 
 ## <a name="figs-and-axes"></a> Section 1: Figures and Axes
-
 **Key Concepts:**
 - **Figure**: The top-level container (the entire window/page)
 - **Axes**: The actual plot area (where data is drawn)
@@ -115,7 +106,6 @@ plt.show()
 ![Plot 2](images/plot_02.png)
 
 ## <a name="customize"></a> Section 2: Customizing Plots: Colors, Styles, Markers, and Labels
-
 Various aesthetic options are available; I listed some popular ones below.
 
 **Styling Options**
@@ -191,7 +181,6 @@ plt.show()
 ![Plot 4](images/plot_04.png)
 
 ### More Customization
-
 Matplotlib offers extensive customization options to make your plots visually appealing and informative.
 
 When you assign a color, you can do so in several different ways:
@@ -225,7 +214,6 @@ plt.show()
 ![Plot 5](images/plot_05.png)
 
 ## <a name="scatter"></a> Section 3: Scatter Plots
-
 Scatter plots are excellent for visualizing relationships between two variables and identifying correlations. Matplotlib lets you take one step further with scatter plots.
 
 ```python
@@ -379,7 +367,6 @@ plt.show()
 ![Plot 11](images/plot_11.png)
 
 ## <a name="hists-and-pies"></a> Section 5: Histograms & Pie Charts
-
 ### Histograms
 Histograms can be used to distribute numerical data over a set of bins.
 
@@ -446,7 +433,6 @@ plt.show()
 **Note:** The above pie chart is based on real data from the 2025 HPC Crash Course
 
 ## <a name="pandas"></a> Section 6: Pandas Dataframes
-
 ```python
 import pandas as pd
 ```
@@ -564,7 +550,6 @@ plt.show()
 ![Plot 17](images/plot_17.png)
 
 ### Reading from .csv file
-
 Instead of generating our own DataFrame using NumPy+Pandas, let's read in a premade CSV dataset.
 
 In this case, our DataFrame is no longer named `df` and is named `iris`, so to plot it we will use `iris.plot()`.
@@ -618,7 +603,6 @@ Subplots allow you to create multiple plots in a single figure. This is great fo
 In this first example, we want to display three trig graphs in a single column: sine, cosine, and tangent.
 - Make sure you use the **Axes API** when declaring your subplots: `fig, ax = plt.subplots(3, 1)`
 - Think of each subplot being an item in a list. In lists, we index each item; we do the same with subplots!
-- Ex: the top left plot in a 2x2 grid is refereed to as `<ax_name>[0]`.
 
 ```python
 # Subplots of sin, cos, and tan
@@ -654,14 +638,9 @@ plt.show()
 
 ![Plot 19](images/plot_19.png)
 
-Cool! We can show multiple graphs at once. Why stop there? We can display multiple plots at once, and they don't need to be the same type.
-
-In this second example, display y=x^2, a scatterplot, a bar chart, and a pie chart.
-
-**Fill in the missing pieces.**
+We can display multiple plots at once, and they don't need to be the same type. In this second example, display y=x^2, a scatterplot, a bar chart, and a pie chart.
 
 ```python
-# TODO: Add to slides & remove 2 lines to be filled in.
 # Create 2x2 subplot grid
 x = np.linspace(0, 10, 100)
 
@@ -678,13 +657,13 @@ np.random.seed(42)
 x_scatter = np.random.randn(100)
 y_scatter = np.random.randn(100)
 axes[0, 1].scatter(x_scatter, y_scatter, alpha=0.6, c=x_scatter, cmap='viridis')
-# TODO: Give this scatter plot a title.
+axes[0, 1].title('Scatter Plot')
 axes[0, 1].grid(True, alpha=0.3)
 
 # Bottom left: Bar Chart
 categories = ['A', 'B', 'C', 'D']
 values = [23, 45, 56, 78]
-# TODO: Plot a bar chart on the bottom left that maps categories to values and is the color coral.
+axes[1, 0].bar(categories, values, color='coral')
 axes[1, 0].set_title('Bar Chart')
 axes[1, 0].grid(True, alpha=0.3, axis='y')
 
@@ -718,16 +697,12 @@ plt.show()
 ![Plot 20](images/plot_20.png)
 
 ## <a name="advanced-plots"></a> Section 8: Advanced Plots
-
 ### 2D Histograms
 2D Histograms use the `hist2d()` function. They can be used to plot two data distributions against each other instead of individually, utilizing colormaps and colorbars to help visualize data.
 
-* Here, we plot `dist2` versus `dist1` across 80 and 20 bins, respectively, assigning the plot to the variable `hist`.
 * The `plt.colorbar()` function is used to create a colorbar for a given figure. Since we assigned our 2D histogram to the `hist` variable, this is what we pass to the colorbar function to create a colorbar distribution for the data.
 * Note that in the case of 2D histograms, `hist[3]` specifically must be passed, but in general you can just pass the entire variable. Additionally, the colorbar function can accept multiple configuration arguments, like `location`, `orientation`, and a `label`.
-
 * We've included an additional method in the comments below to implement a colorbar by manually creating axes for it. Using this method gives you tighter control over the height, width, ticks, and placement of your colorbar relative to a given figure.
-* After creating an axis for a prospective colorbar with `fig.add_axes()`, you can then pass that axis to the `cax` argument in `plt.colorbar()` to actually use it.
 
 More details about colorbar settings can be found here: https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html
 
@@ -765,7 +740,6 @@ plt.show()
 ![Plot 21](images/plot_21.png)
 
 ### 3D Plots
-
 Plotting 3D data in Matplotlib isn't very common since other tools provide more specialized handling of 3D data. However, you can still visualize simple 3D datasets with Matplotlib.
 
 * In this example, we will generate random points in the form of a cube, but plot a specific selection of them. We will only care about the ones within a radius of 1 relative to the center of the domain.
@@ -774,15 +748,6 @@ Plotting 3D data in Matplotlib isn't very common since other tools provide more 
 1) Here, we generate 1000 random `x`, `y`, and `z` datapoints confined to a domain of [-1,1) using the `np.random.rand()` function.
 2) Next, we calculate the radius (`r`) from each point to the center, and slice the data so that we only include points with `r<=1`.
 3) Next, we use the `scatter()` function to make a scatter plot of all of our points within r=1. Alternatively, you can use the `plot()` function with certain markers and line styles.
-
-*An aside:* This example is a convenient introduction into Monte Carlo methods. Using our initial random distribution of samples (which form a cube-like object), we can try and estimate the volume of a sphere just by knowing
-1. the number of datapoints lying in the "sphere" (i.e., points where r=1)
-and
-2. the total number of points.
-
-The more you increase the sample size, the accurate the estimate should be (theoretically).
-* The ratio of volumes = # of points within the sphere / total # of points in the box.
-* Thus, ratio between points * volume of the "cube" $\approx$ volume of the sphere.
 
 For more examples of 3D plots in Matplotlib, see: https://matplotlib.org/stable/gallery/mplot3d/index.html
 
@@ -835,7 +800,6 @@ Approximate volume is 4.136
 ```
 
 ## <a name="advanced-custom"></a> Section 9: Advanced Customization
-
 Matplotlib offers much more styling options than we have discussed so far. You can add annotations to your plots and have finer control over legends (e.g., location, font, title, other styling).
 
 Annotations are additional labels that can inserted on top of the plot. An annotation is created by `ax.annotate, and the options include the following:
@@ -899,11 +863,6 @@ ax.grid(True, alpha=0.3)
 plt.show()
 ```
 
-```
-C:\Users\loved\AppData\Local\Temp\ipykernel_20744\1595912570.py:9: UserWarning: color is redundantly defined by the 'color' keyword argument and the fmt string "b-" (-> color='b'). The keyword argument will take precedence.
-  ax.plot(x, y2, 'b-', linewidth=2, label='sqrt(x)', color='green')
-```
-
 ![Plot 23](images/plot_23.png)
 
 ## <a name="save"></a> Section 10: Saving Figures
@@ -960,7 +919,6 @@ Figure saved as 'magma_2d_histogram.png' and 'magma_2d_histogram.pdf'
 ![Plot 24](images/plot_24.png)
 
 ## <a name="cheat-sheet"></a> Common Matplotlib Functions Cheat Sheet
-
 Quick reference for frequently used Matplotlib functions and parameters.
 
 
