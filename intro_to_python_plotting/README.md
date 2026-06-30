@@ -17,6 +17,7 @@ Packages in this notebook:
 - Works seamlessly with NumPy and Pandas
 
 ### **Table of Contents**
+
 * [**Matplotlib Basics**](#packages)
     * [Getting Started with Numpy](#getting-started)
     * [1. Figure and Axes](#figs-and-axes)
@@ -31,6 +32,9 @@ Packages in this notebook:
     * [10. Saving Figures](#save)
 * [Cheat Sheet](#cheat-sheet)
 * [Extra Content](#optional)
+    * [Seaborn](#seaborn)
+    * [More Cool Plots](#cool-plots)
+* [Additional Packages To Explore](#more-packages)
 
 ### <a name="packages"></a> Import Packages
 ```python
@@ -1018,9 +1022,10 @@ Quick reference for frequently used Matplotlib functions and parameters.
 - Common styles: `'default'`, `'seaborn'`, `'ggplot'`, `'dark_background'`
 - `plt.style.available` - List all available styles
 
-# Extra Content
+# <a name="optional"></a> Extra Content
 Eager to learn more? There are some sections of additional content and the fundamentals of Seaborn below.
-## **Seaborn**
+
+## <a name="seaborn"></a> **Seaborn**
 Let's load the built-in "car crashes" and "tips" datasets 
 ``` python
 import seaborn as sns
@@ -1214,7 +1219,7 @@ sns.heatmap(flights, cmap='Blues', linecolor='white', linewidth=1)
 ```
 ![Plot 35](images/plot_35.png)
 
-## More Fun Features
+## <a name="cool-plots"></a> More Fun Features
 
 These are jist some cool plots that are possible with Matplotlib and Seaborn. Some are them are not common or practical but are pretty neat nevertheless.
 ### Violin Plots
@@ -1305,7 +1310,7 @@ plt.show()
 ```
 ![Plot 38](images/plot_38.png)
 
-## Additional Packages to Explore
+## <a name="more-packages"></a> Additional Packages to Explore
 
 * Python Packages
     * [Scipy](https://docs.scipy.org/doc/scipy/) (The "math/science" compliment to NumPy, which is geared toward integration, interpolation, etc.)
