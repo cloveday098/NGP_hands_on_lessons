@@ -2,6 +2,8 @@
 
 **This lesson was adapted from the one curated by Michael Sandoval in the foundational_hpc_skills repo (https://github.com/olcf/foundational_hpc_skills/tree/master/intro_to_python)**
 
+README and slides edited by Chance Loveday
+
 <p align="center" width="100%">
     <img width="50%" src="images/python_logo.png">
 </p>
@@ -1327,6 +1329,82 @@ $ cd ~/foundational_hpc_skills/intro_to_python/challenges
 $ git clone https://github.com/cloveday098/NGP_hands_on_lessons.git
 $ cd ~/NGP_hands_on_lessons/intro_to_python/challenges/advanced_challenges
 ```
+Premade scripts for both of these advanced challenges are included for you to fill in. Test cases and output formatting is handled for you. If you intend to submit your solution to Kattis, you will need to remove the test cases and take in user input instead.
+
+* "Harshad Numbers" `harshad_numbers.py` [1.4 on Kattis]:
+
+    **Relevant sections:** [Loops](#loops), [if-elif-else Statements](#ifs), [Functions](#funcs)
+    
+    A harshad number is a number which is evenly divisible by the sum of its digits.
+	For example, 24 is a harshad number beacuse it is divisible by the sum of its digits: 24 is divisible by (2+4 = 6). 
+	156 is also a harshad number, since 1+5+6 = 12 and 156 = 12*13. 
+	Notice that 23 is NOT a harshad number since it is not divisible by 2+3=5.
+
+	For this problem, you will be given a number n and must find the smallest harshad number greater than or equal to n.
+    
+    A preview of `harshad_numbers.py`:
+	
+	``` python
+	# Harshad Numbers
+
+	def harshad(n):
+		# I'll give you a hint here: try a while True loop
+		while True:
+			# TODO: Starting at n, check if the current number's digits add to one of its divisors. Keep adding to n until you find a harshad number, and return the first one you find.
+			# Hint: You can use a function called sum() to condense your code.
+
+	# Test Cases
+	print(harshad(24))
+	print(harshad(25))
+	print(harshad(1))
+	print(harshad(123))
+
+	'''
+	Correct Output:
+	24
+	27
+	1
+	126
+	'''
+	```
+
+* "Champernowne Verification" `champernowne_verification.py` [1.5 on Kattis]:
+
+    **Relevant sections:** [Loops](#loops), [if-elif-else Statements](#ifs), [Functions](#funcs)
+    
+    The kth Champernowne word is obtained by writing down the first k positive integers and concatenating them together.
+	For example, the 10th Champernowne word is 12345678910.
+	Given a positive integer n, determine if it is a Champernowne word, and if so, which word.
+
+	If n is a kth Champernowne word, print k. Otherwise, print -1.
+    
+    A preview of `champernowne_verification.py`:
+	
+	``` python
+	# Champernowne Verification
+
+	def champVerif(n):
+		for i in range(______):
+			# TODO: n is treated a string. Loop through n and check that each character matches the Champernowne pattern.
+			# Hint: String indexing is your friend here.
+		
+		return n[-1]
+
+	# Test Cases
+	print(champVerif("123456789"))
+	print(champVerif("1000000000"))
+	print(champVerif("1324"))
+	print(champVerif("1234567"))
+
+	'''
+	Correct Output:
+	9
+	-1
+	-1
+	7
+	'''
+	```
+
 Alternatively, you can create your own Python files and try to solve the challenges from their Kattis links. You can access the challenges at their links below.
 * Harshad Numbers: https://open.kattis.com/problems/harshadnumbers
 * Champernowne Verification: https://open.kattis.com/problems/champernowneverification

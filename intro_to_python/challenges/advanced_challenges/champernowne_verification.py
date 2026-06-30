@@ -14,7 +14,7 @@ def champVerif(n):
         # TODO: n is treated a string. Loop through n and check that each character matches the Champernowne pattern.
         # Hint: String indexing is your friend here.
     
-    return(n[-1])
+    return n[-1]
 
 # Test Cases
 print(champVerif("123456789"))

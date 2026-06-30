@@ -6,7 +6,7 @@
 def champVerif(n):
     for i in range(len(n)):
         if n[i] != str(i+1): return -1
-    return(n[-1])
+    return n[-1]
 
 # 2) Harshad Numbers
 def harshad(n):
