@@ -443,11 +443,24 @@ By default, Pandas will plot data against the index value of each row (for every
 
 Below we compare how plots appear when using Pandas vs. the native plotting feature of Matplotlib. Notice that Pandas automatically includes a legend, while Matplotlib provides the option to exclude a legend or customize it.
 
+We also should talk about cleaning our data. Your data isn't always going to be perfect. You're going to have noise and missing values at some point. When that happens you can either drop the missing rows with `nf.dropna()` or replace the missing value with `nf.replace(np.nan, new_value)`.
+
 ```python
 # Create a Pandas DataFrame
-df = pd.DataFrame( np.array( ([1,2,3] , [4,5,6] , [7,8,9]) ), columns=['a','b','c'] )
+df = pd.DataFrame( np.array( ([np.nan,2,3] , [4,5,6] , [7,8,9]) ), columns=['a','b','c'] )
 print("NumPy DataFrame:")
 print(df)
+
+# This is how you can handle missing data
+# Two Options for handling missing values
+
+# Method #1: Drop the missing values
+#df = df.dropna()
+
+# Method #2: Fill the missing values (just reversing the logic of inserting the missing values)
+df = df.replace(np.nan, 1)
+print(df)
+
 
 fig, ax = plt.subplots(nrows=1,ncols=2)
 
@@ -465,6 +478,11 @@ plt.show()
 
 ```
 NumPy DataFrame:
+     a    b    c
+0  NaN    2    3
+1  4      5    6
+2  7      8    9
+NumPy DataFrame:
    a  b  c
 0  1  2  3
 1  4  5  6
@@ -474,6 +492,14 @@ NumPy DataFrame:
 ![Plot 15](images/plot_15.png)
 
 Here's another sample dataframe. Use it to generate a plot.
+
+There are more filtering/query-like prompts that possible with Pandas. We are only going to focus on a condensed overview focused on the plotting features.
+
+**Commands:**
+- `df.head()`: Shows the first 5 rows
+- `df.tail()`: Shows the last 5 rows
+- `df[[<colName1>, <colName2>, ...]]`: Shows all rows of the DataFrame with the specified column names
+- `df.info()`: Gives a summary of the dataset
 
 ```python
 # Create a sample DataFrame
@@ -486,13 +512,30 @@ df = pd.DataFrame({
     'Region': np.random.choice(['North', 'South', 'East', 'West'], 100)
 })
 
-print("Sample DataFrame:")
-print(df.head())
+print("Sample DataFrame:\n\n")
+print("Head (First 5 lines):")
+print(df.head())                    # Prints the first 5 lines
+print()
+
+print("Tail (Last 5 lines):")        # Prints the last 5 lines
+print(df.tail())
+print()
+
+print("Table with only dates and sales:")
+print(df[["Date", "Sales"]])        # Finding a subtable based on the "Date" and "Sales" columns
+print()
+
+df.info()
+print()
+
 print(f"\nDataFrame shape: {df.shape}")
 ```
 
 ```
 Sample DataFrame:
+
+
+Head (First 5 lines):
         Date        Sales      Profit Region
 0 2023-01-01  4174.000000  801.000000  South
 1 2023-01-02  4927.735492  863.060461   East
@@ -500,8 +543,27 @@ Sample DataFrame:
 3 2023-01-04  2364.560004  203.001501   East
 4 2023-01-05  1751.598752  338.271276  North
 
+Tail (Last 5 lines):
+         Date        Sales      Profit Region
+95 2023-04-06  2470.630857  458.034712  North
+96 2023-04-07  5334.793873  659.913910  South
+97 2023-04-08  5082.803870  455.970493  North
+98 2023-04-09  2213.309064  599.142351   West
+99 2023-04-10  1202.396583  474.964176  South
+
+Table with only dates and sales:
+         Date        Sales
+0  2023-01-01  4174.000000
+1  2023-01-02  4927.735492
+2  2023-01-03  2314.648713
+3  2023-01-04  2364.560004
+...
+memory usage: 3.3 KB
+
+
 DataFrame shape: (100, 4)
 ```
+Now, let's plot our DataFrame.
 
 ```python
 # Plot directly from DataFrame
@@ -571,28 +633,7 @@ iris.plot(kind='scatter', x="sepal_length", y="sepal_width", ax=ax)
 #ax.plot(iris['sepal_length'], iris['sepal_width'], 'o')
 
 plt.title('Plotting CSV Data')
-#plt.show()
-```
-
-```
-     sepal_length  sepal_width  petal_length  petal_width    species
-0             5.1          3.5           1.4          0.2     setosa
-1             4.9          3.0           1.4          0.2     setosa
-2             4.7          3.2           1.3          0.2     setosa
-3             4.6          3.1           1.5          0.2     setosa
-4             5.0          3.6           1.4          0.2     setosa
-..            ...          ...           ...          ...        ...
-145           6.7          3.0           5.2          2.3  virginica
-146           6.3          2.5           5.0          1.9  virginica
-147           6.5          3.0           5.2          2.0  virginica
-148           6.2          3.4           5.4          2.3  virginica
-149           5.9          3.0           5.1          1.8  virginica
-
-[150 rows x 5 columns]
-```
-
-```
-Text(0.5, 1.0, 'Plotting CSV Data')
+plt.show()
 ```
 
 ![Plot 18](images/plot_18.png)
@@ -977,3 +1018,301 @@ Quick reference for frequently used Matplotlib functions and parameters.
 - Common styles: `'default'`, `'seaborn'`, `'ggplot'`, `'dark_background'`
 - `plt.style.available` - List all available styles
 
+# Extra Content
+Eager to learn more? There are some sections of additional content and the fundamentals of Seaborn below.
+## **Seaborn**
+Let's load the built-in "car crashes" and "tips" datasets 
+``` python
+import seaborn as sns
+%matplotlib inline
+
+# Built-in datasets
+crash_df = sns.load_dataset('car_crashes')
+tips_df = sns.load_dataset('tips')
+flights = sns.load_dataset("flights")
+```
+
+### Distribution Plots
+
+* Provides a way to look at a univariate distribution, which focuses on a single variable. 
+* Kernal Density Estimation approximates the distribution (or density) of the data within a histogram.
+    * `kde=False` removes the KDE
+* Bins define how many buckets to divide the data up into between intervals
+
+``` python
+sns.displot(crash_df['not_distracted'], kde=False, bins=25)
+```
+![Plot 25](images/plot_25.png)
+
+### Joint & KDE Plots
+* Jointplot compares 2 distributions and plots a scatter plot by default
+
+`kind` parameter:
+- `reg` = Regression Line
+- `kde` = KDE Plot
+- `hex` = Hexagonal Distribution
+
+``` python
+# As we can see as people tend to speed they also tend to drink & drive
+# Through the kind parameter, you can different distributions
+
+# This joint plot displays a scatterplot with a regression line as well as the kde plots for both sets of variable values
+sns.jointplot(x='speeding', y='alcohol', data=crash_df, kind='reg')
+```
+![Plot 26](images/plot_26.png)
+
+### Pair Plots
+Pair Plot plots relationships across the entire data frames numerical values.
+
+They can be particularly useful for observing patterns between categorical data and the any type of dispersion throughout the data.
+sns.pairplot(crash_df)
+
+``` python
+# You can use color maps from Matplotlib to define what colors to use
+sns.pairplot(tips_df, hue='sex', palette='Blues')
+```
+![Plot 27](images/plot_27.png)
+![Plot 28](images/plot_28.png)
+
+### Aesthetics & Styling
+`set_style`: Sets a white or dark background with grid options
+
+`set_context`: Three options for size and specific font scales
+- Paper = Smallest
+- Talk = Medium-sized; good for presentations
+- Poster = Large; suitable for posters
+
+`despine`: Removes the axis spines when enabled
+
+``` python
+# You can set styling for your axes and grids
+# white, darkgrid, whitegrid, dark, ticks
+# TODO: Try different options for set_styles and set_context
+sns.set_style('white')
+
+# You can use figure sizing from Matplotlib
+plt.figure(figsize=(8,4))
+
+# Change size of labels, lines and other elements to best fit
+# how you will present your data (paper, talk, poster)
+sns.set_context('paper', font_scale=1.4)
+
+sns.jointplot(x='speeding', y='alcohol', data=crash_df, kind='reg')
+
+# Get rid of spines
+# You can turn of specific spines with right=True, left=True, bottom=True, top=True
+sns.despine(left=False, bottom=False)
+```
+![Plot 29](images/plot_29.png)
+
+**Palettes**
+``` python
+plt.figure(figsize=(8,6))
+
+sns.set_style('dark')
+sns.set_context('talk')
+
+# You can use Matplotlibs color maps for color styling: https://matplotlib.org/3.3.1/tutorials/colors/colormaps.html
+sns.stripplot(x='day',y='total_bill',data=tips_df, hue='sex', palette='seismic')
+
+# Add the optional legend with a location number (best: 0, upper right: 1, upper left: 2, lower left: 3, lower right: 4, https://matplotlib.org/3.3.1/api/_as_gen/matplotlib.pyplot.legend.html) or supply a tuple of x & y from lower left
+plt.legend(loc=0)
+```
+![Plot 30](images/plot_30.png)
+
+### Facet Grids
+
+The `FacetGrid()` plot is another useful Seaborn method.
+
+Essentially, it's able to plot conditional relationships between different data in a given DataFrame. Typically it's used to create a handful of subplots that relate to each other.
+
+``` python
+# Read in DataFrame
+iris = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv')
+
+# FacetGrid Plot
+# Color depends on the species in the dataset (often a categorical variable)
+sns.FacetGrid(iris, hue="species", palette="husl", height=7) \
+   .map(plt.scatter, "sepal_length", "sepal_width") \
+   .add_legend()
+
+# Title
+plt.title('Seaborn Facet Grid')
+
+# "Show" the plot
+plt.show()
+```
+![Plot 31](images/plot_31.png)
+
+### Regression Plots
+We can plot a regression plot studying whether total bill effects the tip.
+
+`hue` is used to show separation based off of categorical data. We see that males tend to tip slightly more.
+
+``` python
+plt.figure(figsize=(6,4))
+sns.set_context('paper', font_scale=1.4)
+
+# We can plot a regression plot studying whether total bill effects the tip
+# hue is used to show separation based off of categorical data
+# We see that males tend to tip slightly more
+
+# Let's define different markers for men and women
+sns.lmplot(x='total_bill', y='tip', hue='sex', data=tips_df, markers=['o', '^'], 
+          scatter_kws={'s': 100, 'edgecolor': 'w'})
+
+
+# You can separate the data into separate columns for day data
+
+# Makes the fonts more readable
+sns.set_context('poster', font_scale=1.4)
+sns.lmplot(x='total_bill', y='tip', data=tips_df, col='day', hue='sex',
+          height=8, aspect=0.6)
+```
+![Plot 32](images/plot_32.png)
+![Plot 33](images/plot_33.png)
+
+### Heatmaps
+
+Correlation tells you how influential a variable is on the result. Heatmaps are excellent in effectively displaying correlational patterns through the use of colors.
+
+``` python
+# Car Crashes Heatmap Example
+
+# Generating correlation data from the car_crashes dataset
+crash_mx = crash_df.corr(numeric_only=True)
+
+# Generate heatmap with built-in annotations and styling
+plt.figure(figsize=(7, 5))
+sns.set_context('paper', font_scale=1.4)
+sns.heatmap(
+    crash_mx,
+    annot=True,  # Write the numeric values inside cells
+    fmt=".2f",  # Round values to two decimal spots
+    cmap="coolwarm",  # Pick a diverging color scheme
+    linewidths=0.5,  # Add subtle margins between grid boxes
+)
+# Notice that n previous accident is heavily correlated with accidents, while the insurance premium is not
+
+plt.title("Seaborn Heatmap Example")
+plt.show()
+```
+![Plot 34](images/plot_34.png)
+
+``` python
+# Flights Heatmap Example
+
+plt.figure(figsize=(8,6))
+sns.set_context('paper', font_scale=1.4)
+
+# We can create a matrix with an index of month, columns representing years and the number of passengers for each
+# We see that flights have increased over time and that most people travel in July and August
+flights = flights.pivot_table(index='month', columns='year', values='passengers')
+
+# You can separate data with lines
+sns.heatmap(flights, cmap='Blues', linecolor='white', linewidth=1)
+```
+![Plot 35](images/plot_35.png)
+
+## More Fun Features
+
+These are jist some cool plots that are possible with Matplotlib and Seaborn. Some are them are not common or practical but are pretty neat nevertheless.
+### Violin Plots
+``` python
+# A violin plot is a combination of the boxplot and KDE
+# While a box plot corresponds to data points, the violin plot uses the KDE estimation
+
+# Split allows you to compare how the categories compare to each other
+sns.violinplot(x='day',y='total_bill',data=tips_df, hue='sex',split=True)
+```
+![Plot 36](images/plot_36.png)
+
+``` python
+# You can stack a violin plot with a swarm plot
+# Comment out the violin plot and see what the swarm plot looks like alone
+
+sns.violinplot(x='day',y='total_bill',data=tips_df, palette='seismic')
+sns.swarmplot(x='day',y='total_bill',data=tips_df, color='white')
+```
+![Plot 37](images/plot_37.png)
+
+### Contour Images
+
+``` python
+from matplotlib import cm
+
+# Default delta is large because that makes it fast illustrates the correct registration between image and contours.
+delta = 0.5
+extent = (-3, 4, -4, 3)
+
+x = np.arange(-3.0, 4.001, delta)
+y = np.arange(-4.0, 3.001, delta)
+X, Y = np.meshgrid(x, y)
+Z1 = np.exp(-X**2 - Y**2)
+Z2 = np.exp(-(X - 1)**2 - (Y - 1)**2)
+Z = (Z1 - Z2) * 2
+
+# Boost the upper limit to avoid truncation errors.
+levels = np.arange(-2.0, 1.601, 0.4)
+
+norm = cm.colors.Normalize(vmax=abs(Z).max(), vmin=-abs(Z).max())
+cmap = plt.colormaps["PRGn"]
+
+fig, _axs = plt.subplots(nrows=2, ncols=2)
+fig.subplots_adjust(hspace=0.3)
+axs = _axs.flatten()
+
+cset1 = axs[0].contourf(X, Y, Z, levels, norm=norm,
+                        cmap=cmap.resampled(len(levels) - 1))
+# It is not necessary, but for the colormap, we need only the number of levels minus 1.
+# To avoid discretization error, use either this number or a large number such as the default (256).
+
+# If we want lines as well as filled regions, we need to call  contour separately; don't try to change the edgecolor or edgewidth of the polygons in the collections returned by contourf.
+# Use levels output from previous call to guarantee they are the same.
+
+cset2 = axs[0].contour(X, Y, Z, cset1.levels, colors='k')
+cset2.set_linestyle('solid')
+
+# It is easier here to make a separate call to contour than to set up an array of colors and linewidths.
+# We are making a thick green line as a zero contour. Specify the zero level as a tuple with only 0 in it.
+
+cset3 = axs[0].contour(X, Y, Z, (0,), colors='g', linewidths=2)
+axs[0].set_title('Filled contours')
+fig.colorbar(cset1, ax=axs[0])
+
+
+axs[1].imshow(Z, extent=extent, cmap=cmap, norm=norm)
+axs[1].contour(Z, levels, colors='k', origin='upper', extent=extent)
+axs[1].set_title("Image, origin 'upper'")
+
+axs[2].imshow(Z, origin='lower', extent=extent, cmap=cmap, norm=norm)
+axs[2].contour(Z, levels, colors='k', origin='lower', extent=extent)
+axs[2].set_title("Image, origin 'lower'")
+
+# We will use the interpolation "nearest" here to show the actual image pixels.
+# Note that the contour lines don't extend to the edge of the box. This is intentional.
+# The Z values are defined at the center of each image pixel.
+im = axs[3].imshow(Z, interpolation='nearest', extent=extent,
+                   cmap=cmap, norm=norm)
+axs[3].contour(Z, levels, colors='k', origin='image', extent=extent)
+ylim = axs[3].get_ylim()
+axs[3].set_ylim(ylim[::-1])
+axs[3].set_title("Origin from rc, reversed y-axis")
+fig.colorbar(im, ax=axs[3])
+
+fig.tight_layout()
+plt.show()
+```
+![Plot 38](images/plot_38.png)
+
+## Additional Packages to Explore
+
+* Python Packages
+    * [Scipy](https://docs.scipy.org/doc/scipy/) (The "math/science" compliment to NumPy, which is geared toward integration, interpolation, etc.)
+    * [Geopandas](https://geopandas.org/en/stable/docs.html) (Good tool for dealing with geographic/location data)
+    * [Plotly](https://plotly.com/python/) (Good tool to look into for sharing interactive plots)
+    * [yt](https://yt-project.org/doc/) (Common astro plotting/data processing tool but works with other domains too)
+ 
+* Bigger Visualization Tools (typically used to visualize and model 3D data):
+    * [Visit](https://visit-dav.github.io/visit-website/)
+    * [ParaView](https://www.paraview.org/)
