@@ -111,7 +111,7 @@ Format: Slides + Bash Powershell
 
 ---
 
-## Lesson 4 – Quantum Circuit icro-Lessons
+## Lesson 4 – Quantum Circuit Micro-Lessons
 
 Date Presented: July 13, 2026
 Format: Slides
