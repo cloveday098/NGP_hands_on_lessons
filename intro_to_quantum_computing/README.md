@@ -179,7 +179,7 @@ Each model trades off differently between stability, control precision, and how 
 
 For the superconducting-circuit model (the one behind IBM, IQM, and Google's machines), the general shape of the hardware looks like a chandelier: a core surrounded by circuitry, with gold plates separating each layer that narrow the deeper into the system you go.
 
-<p align="center"><img src=".images/quantum-computer-anatomy.png" alt="General anatomy of a superconducting-circuit quantum computer" width="520"></p>
+<p align="center"><img src="./images/quantum-computer-anatomy.png" alt="General anatomy of a superconducting-circuit quantum computer" width="520"></p>
 
 **ORNL's Pathfinder.** A concrete, current example of this architecture is [Pathfinder](https://www.ornl.gov/news/ornl-deploys-new-iqm-quantum-computer), the IQM-built quantum computer recently deployed at Oak Ridge National Laboratory. Even though Pathfinder is brand new, it follows the same general superconducting-circuit pattern:
 
