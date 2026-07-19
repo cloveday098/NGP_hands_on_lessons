@@ -107,7 +107,31 @@ Format: Slides + Bash Powershell
 * Loops
 * Functions
 * Miscellaneous Topics
+    - Cowsay
 
+---
+
+## Lesson 4 – Quantum Circuit icro-Lessons
+
+Date Presented: July 13, 2026
+Format: Slides
+
+**Topics Covered**
+
+* Classical Bits
+* Logic Gates
+* Qubits
+* Bloch Sphere
+* Quantum Gates
+    - Pauli Gates
+    - Phase Gates
+    - CNOT
+* Physical Qubit Designs
+    - Superconducting Circuits
+    - Trapped Ions
+    - Neutral Atoms
+* Quantum Computer Anatomy
+* Decoherence & Error Correction
 
 ---
 
