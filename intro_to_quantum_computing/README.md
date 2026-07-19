@@ -17,7 +17,7 @@ Between the two, in the original session, there's a built-in 10-minute break —
 
 Everything a classical computer does eventually comes down to **bits** — small binary objects that can hold exactly one of two states, 0 or 1. Your phone being "on" or "off" is the intuitive version; underneath, it's tiny transistors switching electrical signals on and off, the same way a switch turns a lightbulb on or off.
 
-<p align="center"><img src="./images/assets/bit-as-switch.png" alt="A bit represented as a simple on/off switch" width="480"></p>
+<p align="center"><img src="./images/bit-as-switch.png" alt="A bit represented as a simple on/off switch" width="480"></p>
 
 Bits by themselves don't do much. What makes them useful is **gates** — small operations that combine bits to produce new bits. Stack enough gates together and you get everything from an operating system, to a CPU, to the arithmetic logic unit (ALU) that does math, all the way down to single logic gates flipping transistors. Think of gates as the building blocks that only build to bigger and bigger things:
 
@@ -41,7 +41,7 @@ Classical computers are great at problems where you can check possibilities one 
 
 A useful mental picture: imagine the computer is a mouse, and the problem is a maze.
 
-<p align="center"><img src="./images/assets/maze-classical-vs-quantum.png" alt="A mouse navigating a maze, illustrating classical vs quantum search" width="520"></p>
+<p align="center"><img src="./images/maze-classical-vs-quantum.png" alt="A mouse navigating a maze, illustrating classical vs quantum search" width="520"></p>
 
 - **Classical computing** → Tries to escape the maze one path at a time, updating its map as it goes.
 - **Quantum computing** → Considers all possible paths at once and explores the most probable ones first.
@@ -52,13 +52,13 @@ That difference is checking one path vs. holding many at once → this is the wh
 
 A **qubit** fills the same conceptual role as a bit, but it isn't limited to two fixed states. A qubit can exist in a *linear combination* of the two basis states, written **|0⟩** and **|1⟩** (read "ket-zero" and "ket-one;" these are state vectors, specifically *ket vectors*). Existing in a combination of both states at once is called **superposition**.
 
-<p align="center"><img src="./images/assets/qubit-superposition.png" alt="A qubit in superposition of the |0> and |1> states" width="420"></p>
+<p align="center"><img src="./images/qubit-superposition.png" alt="A qubit in superposition of the |0> and |1> states" width="420"></p>
 
 _The catch:_ a qubit's state is fundamentally **probabilistic**, not certain. The moment you measure a qubit, its superposition **collapses** to the single state you actually saw. You don't get to peek at the "in-between;" you only ever get 0 or 1 out, with some probability of each depending on how the qubit was set up.
 
 **The double-slit experiment:** This concept traces back to a real, physical experiment first performed in 1801. Shine light through a barrier with two slits, and it behaves like a wave: you get an interference pattern. Remember that light can also act like a particle. Now dim the light until only a single photon passes through the barrier at a time. You'd expect the interference pattern to disappear since there's nothing else for a lone photon to "interfere" with, but it doesn't. The interference pattern remains.
 
-<p align="center"><img src="./images/assets/double-slit-experiment.png" alt="The double-slit experiment showing an interference pattern" width="480"></p>
+<p align="center"><img src="./images/double-slit-experiment.png" alt="The double-slit experiment showing an interference pattern" width="480"></p>
 
 That result is strong evidence for superposition. The single photon is, in some sense, taking every available path at once, and those possibilities interfere with each other even though only one photon is present.
 
@@ -66,7 +66,7 @@ That result is strong evidence for superposition. The single photon is, in some 
 
 Because a qubit can sit *between* |0⟩ and |1⟩, a simple lightswitch isn't enough to describe it. We need a 3-Dimensional picture. That picture is the **Bloch Sphere**.
 
-<p align="center"><img src="./images/assets/bloch-sphere.png" alt="The Bloch sphere representation of a qubit state" width="360"></p>
+<p align="center"><img src="./images/bloch-sphere.png" alt="The Bloch sphere representation of a qubit state" width="360"></p>
 
 A few things worth internalizing about it:
 
@@ -117,8 +117,8 @@ These are *smaller* rotations around the z-axis than a full Pauli-Z flip:
 Single-qubit gates rotate one qubit at a time — but the real power of quantum computing comes from letting qubits *interact*. Recall NAND from the classical section: given only its output, there are too many possible input combinations to work backward reliably. Quantum computing's answer to "how do we let one qubit's state control another's?" is the **CNOT (Controlled-NOT) gate**.
 
 <p align="center">
-  <img src="./images/assets/cnot-gate.png" alt="CNOT gate circuit diagram" width="380">
-  <img src="./images/assets/cnot-gate-uniform.png" alt="Uniform CNOT gate circuit diagram" width="380">
+  <img src="./images/cnot-gate.png" alt="CNOT gate circuit diagram" width="380">
+  <img src="./images/cnot-gate-uniform.png" alt="Uniform CNOT gate circuit diagram" width="380">
 </p>
 
 A CNOT gate takes a **control qubit** and a **target qubit**: if the control qubit is |1⟩, the target qubit is flipped (an X gate is applied); if the control is |0⟩, the target is left alone. What makes this powerful is that the control qubit can be in superposition, meaning the "flip" and "no flip" outcomes both happen at once, linking the two qubits together.
@@ -179,7 +179,7 @@ Each model trades off differently between stability, control precision, and how 
 
 For the superconducting-circuit model (the one behind IBM, IQM, and Google's machines), the general shape of the hardware looks like a chandelier: a core surrounded by circuitry, with gold plates separating each layer that narrow the deeper into the system you go.
 
-<p align="center"><img src=".images/assets/quantum-computer-anatomy.png" alt="General anatomy of a superconducting-circuit quantum computer" width="520"></p>
+<p align="center"><img src=".images/quantum-computer-anatomy.png" alt="General anatomy of a superconducting-circuit quantum computer" width="520"></p>
 
 **ORNL's Pathfinder.** A concrete, current example of this architecture is [Pathfinder](https://www.ornl.gov/news/ornl-deploys-new-iqm-quantum-computer), the IQM-built quantum computer recently deployed at Oak Ridge National Laboratory. Even though Pathfinder is brand new, it follows the same general superconducting-circuit pattern:
 
@@ -213,7 +213,7 @@ For context: **10 mK is roughly 270 times colder than deep space.** That extreme
 
 **Decoherence** is what happens when a qubit's superposition breaks down and the system loses quantum information. It can show up as a bit flip, a phase flip, or some other form of corrupted information — and it's one of the single biggest roadblocks to scaling up the number of qubits in a working system.
 
-<p align="center"><img src="./images/assets/decoherence.png" alt="Illustration of decoherence breaking a qubit's superposition" width="480"></p>
+<p align="center"><img src="./images/decoherence.png" alt="Illustration of decoherence breaking a qubit's superposition" width="480"></p>
 
 Quantum states are delicate, and almost any disturbance can interrupt a qubit's superposition, along with anything it's entangled with, potentially breaking the whole system. Common sources of that disturbance:
 
@@ -246,7 +246,7 @@ Quantum states are delicate, and almost any disturbance can interrupt a qubit's 
 
 ### 7. Where this is headed
 
-<p align="center"><img src="./images/assets/quantum-computing-timeline.png" alt="Timeline of quantum computing development" width="560"></p>
+<p align="center"><img src="./images/quantum-computing-timeline.png" alt="Timeline of quantum computing development" width="560"></p>
 
 Roadmaps from major players (IBM's among them) point toward steadily increasing qubit counts, better error correction, and improving reliability over the coming years. However, **we've barely scratched the surface yet.**
 
