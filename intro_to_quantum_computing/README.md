@@ -2,9 +2,7 @@
 
 _README and slides created by Chance Loveday_
 
-This README turns two 45–60 minute micro-lessons into a self-contained reading guide. It assumes you've already been through a quantum primer — you know that quantum computing exists and roughly why people are excited about it — but it doesn't assume you've seen gates, circuits, or real quantum hardware yet.
-
-There are two parts, matching the two original lessons:
+This README turns two 45–minute micro-lessons into a self-contained reading guide. It doesn't assume you've already seen gates, circuits, or real quantum hardware yet.
 
 - **[Part 1 — Qubits, Entanglement & Quantum Circuits](#part-1--qubits-entanglement--quantum-circuits)**: the theory. What a qubit is, how quantum gates manipulate it, and how two-qubit gates create entanglement.
 - **[Part 2 — Qubits in Physical 3D Space](#part-2--qubits-in-physical-3d-space)**: the engineering. How the abstract qubit from Part 1 actually gets built, cooled, controlled, and why it's so hard to keep working.
@@ -19,13 +17,11 @@ Between the two, in the original session, there's a built-in 10-minute break —
 
 Everything a classical computer does eventually comes down to **bits** — small binary objects that can hold exactly one of two states, 0 or 1. Your phone being "on" or "off" is the intuitive version; underneath, it's tiny transistors switching electrical signals on and off, the same way a switch turns a lightbulb on or off.
 
-<p align="center"><img src="assets/bit-as-switch.png" alt="A bit represented as a simple on/off switch" width="480"></p>
+<p align="center"><img src="./images/assets/bit-as-switch.png" alt="A bit represented as a simple on/off switch" width="480"></p>
 
-Bits by themselves don't do much. What makes them useful is **gates** — small operations that combine bits to produce new bits. Stack enough gates together and you get everything from an operating system, to a CPU, to the arithmetic logic unit (ALU) that does math, all the way down to single logic gates flipping transistors. It's gates all the way down:
+Bits by themselves don't do much. What makes them useful is **gates** — small operations that combine bits to produce new bits. Stack enough gates together and you get everything from an operating system, to a CPU, to the arithmetic logic unit (ALU) that does math, all the way down to single logic gates flipping transistors. Think of gates as the building blocks that only build to bigger and bigger things:
 
-```
-Operating System → CPU → ALU → Multi-gate operations (adders, etc.) → Single logic gates
-```
+<p align="center"><img src="./images/bit_diagram.png" alt="A bubble diagram showing how bits build all the way up to an OS" width="480"></p>
 
 The classical gates worth knowing by name:
 
@@ -33,8 +29,8 @@ The classical gates worth knowing by name:
 |---|---|---|
 | **AND** | True only if *both* inputs are true | Both switches need to be flipped on |
 | **OR**  | True if *at least one* input is true | Either switch on is enough |
-| **XOR** | True if *exactly one* input is true | One on, one off — not both |
-| **NOT** | Flips the input | Whatever it was, do the opposite |
+| **XOR** | True if *exactly one* input is true | One on, one off; not both |
+| **NOT** | Flips the input | Whatever comes in, do the opposite |
 | **NAND**| True only if *both* inputs are false | The "opposite of AND" — and interesting because, given only the output, you often can't work backward to figure out what the inputs were |
 
 That last property of NAND — that you can't always reconstruct the inputs from the output — is worth sitting with, because it's exactly the kind of ambiguity quantum circuits are built to exploit, just in a very different way. If you want to build and test these gates yourself, [CircuitVerse's simulator](https://circuitverse.org/simulator) is a good sandbox.
@@ -45,60 +41,59 @@ Classical computers are great at problems where you can check possibilities one 
 
 A useful mental picture: imagine the computer is a mouse, and the problem is a maze.
 
-<p align="center"><img src="assets/maze-classical-vs-quantum.png" alt="A mouse navigating a maze, illustrating classical vs quantum search" width="520"></p>
+<p align="center"><img src="./images/assets/maze-classical-vs-quantum.png" alt="A mouse navigating a maze, illustrating classical vs quantum search" width="520"></p>
 
-- **Classical computing** → tries to escape the maze one path at a time, updating its map as it goes.
-- **Quantum computing** → considers all possible paths at once and explores the most probable ones first.
+- **Classical computing** → Tries to escape the maze one path at a time, updating its map as it goes.
+- **Quantum computing** → Considers all possible paths at once and explores the most probable ones first.
 
-That difference — checking one path vs. holding many at once — is the whole reason qubits are interesting.
+That difference is checking one path vs. holding many at once → this is the whole reason qubits are interesting.
 
 ### 3. Qubits and superposition
 
-A **qubit** fills the same conceptual role as a bit, but it isn't limited to two fixed states. A qubit can exist in a *linear combination* of the two basis states, written **|0⟩** and **|1⟩** (read "ket-zero" and "ket-one" — these are state vectors, specifically *ket vectors*). Being in a combination of both at once is called **superposition**.
+A **qubit** fills the same conceptual role as a bit, but it isn't limited to two fixed states. A qubit can exist in a *linear combination* of the two basis states, written **|0⟩** and **|1⟩** (read "ket-zero" and "ket-one;" these are state vectors, specifically *ket vectors*). Existing in a combination of both states at once is called **superposition**.
 
-<p align="center"><img src="assets/qubit-superposition.png" alt="A qubit in superposition of the |0> and |1> states" width="420"></p>
+<p align="center"><img src="./images/assets/qubit-superposition.png" alt="A qubit in superposition of the |0> and |1> states" width="420"></p>
 
-The catch: a qubit's state is fundamentally **probabilistic**, not certain. The moment you *observe* (measure) a qubit, its superposition **collapses** to the single state you actually saw. You don't get to peek at the "in-between" — you only ever get 0 or 1 out, with some probability of each depending on how the qubit was set up.
+_The catch:_ a qubit's state is fundamentally **probabilistic**, not certain. The moment you measure a qubit, its superposition **collapses** to the single state you actually saw. You don't get to peek at the "in-between;" you only ever get 0 or 1 out, with some probability of each depending on how the qubit was set up.
 
-**The double-slit experiment.** This idea isn't just theoretical bookkeeping — it traces back to a real, physical experiment first performed in 1801. Shine light through a barrier with two slits, and it behaves like a wave: you get an interference pattern. Now dim the light until only a single photon passes through the barrier at a time. You'd expect the interference pattern to disappear, since there's nothing else for a lone photon to "interfere" with — but it doesn't. The interference pattern remains.
+**The double-slit experiment:** This concept traces back to a real, physical experiment first performed in 1801. Shine light through a barrier with two slits, and it behaves like a wave: you get an interference pattern. Remember that light can also act like a particle. Now dim the light until only a single photon passes through the barrier at a time. You'd expect the interference pattern to disappear since there's nothing else for a lone photon to "interfere" with, but it doesn't. The interference pattern remains.
 
-<p align="center"><img src="assets/double-slit-experiment.png" alt="The double-slit experiment showing an interference pattern" width="480"></p>
+<p align="center"><img src="./images/assets/double-slit-experiment.png" alt="The double-slit experiment showing an interference pattern" width="480"></p>
 
-That result is strong evidence for superposition: the single photon is, in some sense, taking every available path at once, and those possibilities interfere with each other even though only one photon is present.
+That result is strong evidence for superposition. The single photon is, in some sense, taking every available path at once, and those possibilities interfere with each other even though only one photon is present.
 
 ### 4. The Bloch sphere
 
-Because a qubit can sit *between* |0⟩ and |1⟩, a simple 0-or-1 line isn't enough to describe it — you need a 3-dimensional picture. That picture is the **Bloch sphere**.
+Because a qubit can sit *between* |0⟩ and |1⟩, a simple lightswitch isn't enough to describe it. We need a 3-Dimensional picture. That picture is the **Bloch Sphere**.
 
-<p align="center"><img src="assets/bloch-sphere.png" alt="The Bloch sphere representation of a qubit state" width="360"></p>
+<p align="center"><img src="./images/assets/bloch-sphere.png" alt="The Bloch sphere representation of a qubit state" width="360"></p>
 
 A few things worth internalizing about it:
 
 - |0⟩ sits at the north pole, |1⟩ at the south pole.
 - **Every point on the sphere's surface is a valid superposition** — not just the poles.
-- **Orientation matters.** A qubit "halfway between |0⟩ and |1⟩" isn't a single state — where it sits on the sphere (not just how far from the poles) changes what state it actually is.
+- **Orientation matters.** A qubit "halfway between |0⟩ and |1⟩" isn't a single state; where it sits on the sphere (not just how far from the poles) changes what state it actually is.
 
 You can play with this interactively at IQM's [Bloch sphere simulator](https://www.iqmacademy.com/play/bloch/).
 
 ### 5. Quantum gates
 
-Quantum gates do for qubits what AND/OR/NOT do for bits — except with two properties classical gates don't generally have:
+Quantum gates do for qubits what AND/OR/NOT do for bits, except with two properties classical gates don't generally have:
 
 1. **They're reversible.** You can always run a quantum gate "backward" to recover the input. (Classical computers *can* be built to run reversibly, but it's rarely worth the cost.)
-2. **They enable parallel computation** by manipulating superpositions directly — acting on a combination of states, not just one value at a time.
+2. **They enable parallel computation** by manipulating superpositions directly.
 
 Every single-qubit gate below is really just a specific rotation of the point on the Bloch sphere.
 
-**The X and Hadamard (H) gates**
+**The Hadamard (H) gates**
 
 | Gate | What it does | On the Bloch sphere | Example |
 |---|---|---|---|
-| **X** | Flips the current state | 180° rotation across the x-axis | \|0⟩ → X → \|1⟩ |
 | **H** | Creates an equal superposition of \|0⟩ and \|1⟩ | 90° across the y-axis, then 180° across the x-axis | \|0⟩ → H → \|+⟩ |
 
-The Hadamard gate has a neat special property: apply it twice in a row and you're back where you started. More generally, **an even number of H-gates resets the qubit to its initial value** — the rotations cancel out.
+The Hadamard gate has a neat special property: apply it twice in a row and you're back where you started. More generally, **an even number of H-gates resets the qubit to its initial value**; the rotations cancel out.
 
-**The Pauli gates (Y and Z)**
+**The Pauli gates (X, Y, and Z)**
 
 Pauli gates all rotate the qubit 180° around some axis:
 
@@ -106,6 +101,7 @@ Pauli gates all rotate the qubit 180° around some axis:
 |---|---|---|---|
 | **Z** | Keeps the same measured state, but flips the *phase* | 180° across the z-axis | \|0⟩ → Z → \|0⟩ |
 | **Y** | Flips the current state, like X | 180° across the y-axis | \|0⟩ → Y → \|1⟩ |
+| **X** | Flips the current state | 180° rotation across the x-axis | \|0⟩ → X → \|1⟩ |
 
 **The phase gates (S and T)**
 
@@ -121,41 +117,41 @@ These are *smaller* rotations around the z-axis than a full Pauli-Z flip:
 Single-qubit gates rotate one qubit at a time — but the real power of quantum computing comes from letting qubits *interact*. Recall NAND from the classical section: given only its output, there are too many possible input combinations to work backward reliably. Quantum computing's answer to "how do we let one qubit's state control another's?" is the **CNOT (Controlled-NOT) gate**.
 
 <p align="center">
-  <img src="assets/cnot-gate.png" alt="CNOT gate circuit diagram" width="380">
-  <img src="assets/cnot-gate-uniform.png" alt="Uniform CNOT gate circuit diagram" width="380">
+  <img src="./images/assets/cnot-gate.png" alt="CNOT gate circuit diagram" width="380">
+  <img src="./images/assets/cnot-gate-uniform.png" alt="Uniform CNOT gate circuit diagram" width="380">
 </p>
 
-A CNOT gate takes a **control qubit** and a **target qubit**: if the control qubit is |1⟩, the target qubit is flipped (an X gate is applied); if the control is |0⟩, the target is left alone. What makes this powerful is that the control qubit can be in superposition — meaning the "flip" and "no flip" outcomes both happen at once, linking the two qubits together.
+A CNOT gate takes a **control qubit** and a **target qubit**: if the control qubit is |1⟩, the target qubit is flipped (an X gate is applied); if the control is |0⟩, the target is left alone. What makes this powerful is that the control qubit can be in superposition, meaning the "flip" and "no flip" outcomes both happen at once, linking the two qubits together.
 
-This linking is called **entanglement**. Once two qubits are entangled, measuring one of them immediately tells you something about the other — instantly and with certainty, regardless of the correlation being probabilistic beforehand. Remember superposition collapsing on measurement? The same thing applies here: **observing one entangled qubit collapses its superposition, and that collapse propagates to its entangled partner(s) too.**
+This linking is called **entanglement**. Once two qubits are entangled, measuring one of them immediately tells you something about the other, regardless of the correlation being probabilistic beforehand. Remember superposition collapsing on measurement? The same thing applies here: **observing one entangled qubit collapses its superposition, and that collapse propagates to its entangled partner(s) too.**
 
-CNOT is one of the primary ways to *create* entanglement, but it's not the only two-qubit gate — it's simply the one you'll see most often as the standard example.
+CNOT is one of the primary ways to *create* entanglement, but it's not the only two-qubit gate. It's simply the one you'll see most often.
 
 ### 7. Why any of this matters: universality
 
 Not every gate is created equal in terms of what you can build from it. A **universal gate set** is a small collection of gates that can be combined to reproduce *every other gate* in the system.
 
-- **Classical example:** {OR, AND, NOT} is a universal set — combine these three and you can build any classical logic circuit.
+- **Classical example:** {OR, AND, NOT} is a universal set → combine these three and you can build any classical logic circuit.
 - **Quantum example:** {H, S, T, CNOT} is a common universal set for quantum circuits.
 
-Because quantum gates are reversible, a universal quantum gate set preserves more information through a computation than its classical counterpart does — nothing is thrown away the way it can be with an irreversible classical gate.
+Because quantum gates are reversible, a universal quantum gate set preserves more information through a computation than its classical counterpart does.
 
 ### 8. Why qubits matter
 
 A few grounding truths worth keeping in mind as you go further:
 
-- Qubits give you dramatically more room to represent information than bits do, because you're working with continuous points on a sphere rather than a fixed 0-or-1.
-- **Quantum computing isn't replacing classical computing** — not soon, and arguably not ever entirely. The two are complementary.
-- Qubits and quantum computers aren't a fix-all. They make *certain* problems dramatically easier — they don't make everything easier.
+- Qubits give you dramatically more room to represent information than bits do, because you're working with continuous points on a sphere rather than a fixed state (0 or 1).
+- **Quantum computing isn't replacing classical computing** → not soon, and arguably not ever entirely.
+- Qubits and quantum computers aren't a fix-all. They make *certain* problems dramatically easier — but not everything.
 
 ### 9. Applications
 
 Where does the qubit + gate + entanglement machinery actually get used?
 
 - **Optimization** through quantum algorithms
-- **Modeling complex chemical structures** — speeding up drug synthesis by more accurately simulating chemical interactions
+- **Modeling complex chemical structures** → speeding up drug synthesis by more accurately simulating chemical interactions
 - **Developing and modeling new superconducting materials**
-- **Analyzing cryptographic systems** and motivating the move toward post-quantum security
+- **Analyzing cryptographic systems** and motivating post-quantum security
 
 ---
 
@@ -175,17 +171,17 @@ There's no single, settled architecture for quantum hardware. Three models curre
 |---|---|---|---|---|
 | **Superconducting circuits** | A tiny superconducting electrical circuit | Microwave pulses | 10–15 mK | IBM, IQM, Google |
 | **Trapped ions** | Encoded in the stable energy levels of ions | Precise lasers | Room temperature, inside a vacuum-sealed chamber | IonQ, Quantinuum |
-| **Neutral atoms** | Encoded in the energy levels of electrons in uncharged atoms held by "optical tweezers" | Precise lasers | Ultracold — below 1 mK | QuEra (Caltech-affiliated) |
+| **Neutral atoms** | Encoded in the energy levels of electrons in uncharged atoms held by "optical tweezers" | Precise lasers | Ultracold (below 1 mK) | QuEra (Caltech-affiliated) |
 
-Each model trades off differently between stability, control precision, and how hard it is to scale to more qubits — none of the three has "won" yet.
+Each model trades off differently between stability, control precision, and how hard it is to scale to more qubits.
 
 ### 2. Anatomy of a quantum computer
 
 For the superconducting-circuit model (the one behind IBM, IQM, and Google's machines), the general shape of the hardware looks like a chandelier: a core surrounded by circuitry, with gold plates separating each layer that narrow the deeper into the system you go.
 
-<p align="center"><img src="assets/quantum-computer-anatomy.png" alt="General anatomy of a superconducting-circuit quantum computer" width="520"></p>
+<p align="center"><img src=".images/assets/quantum-computer-anatomy.png" alt="General anatomy of a superconducting-circuit quantum computer" width="520"></p>
 
-**Spotlight: ORNL's Pathfinder.** A concrete, current example of this architecture is [Pathfinder](https://www.ornl.gov/news/ornl-deploys-new-iqm-quantum-computer), the IQM-built quantum computer recently deployed at Oak Ridge National Laboratory. Even though Pathfinder is brand new, it follows the same general superconducting-circuit pattern:
+**ORNL's Pathfinder.** A concrete, current example of this architecture is [Pathfinder](https://www.ornl.gov/news/ornl-deploys-new-iqm-quantum-computer), the IQM-built quantum computer recently deployed at Oak Ridge National Laboratory. Even though Pathfinder is brand new, it follows the same general superconducting-circuit pattern:
 
 - A **Bluefors dilution refrigerator** — a cryosystem capable of holding temperatures at or below 10 mK
 - A **Quantum Processing Unit (QPU)** with 20 qubits
@@ -195,7 +191,7 @@ For the superconducting-circuit model (the one behind IBM, IQM, and Google's mac
 
 ### 3. How gates physically exist
 
-In a classical computer, a logic gate is a physical circuit controlled by transistors — the gate *is* the hardware. Quantum computers separate the two: the qubit can be represented physically (as in the three models above), but the **gate** is applied to it as a pulse or signal from the outside, rather than being a fixed piece of circuitry.
+In a classical computer, a logic gate is a physical circuit controlled by transistors; the gate *is* the hardware. Quantum computers separate the two: the qubit can be represented physically (as in the three models above), but the **gate** is applied to it as a pulse or signal from the outside, rather than being a fixed piece of circuitry.
 
 - **Superconducting circuits** → gates applied via **microwave pulses**
 - **Trapped ions & neutral atoms** → gates applied via **lasers**
@@ -205,21 +201,21 @@ The path from code to physical signal looks roughly like: a script is written (e
 
 ### 4. Cooling systems
 
-Superconducting qubits only behave like qubits at extraordinarily low temperatures — the Bluefors cryosystem that keeps Pathfinder's qubits functional is a gas-driven cooling system that gets there in stages:
+Superconducting qubits only behave like qubits at extraordinarily low temperatures. The Bluefors cryosystem that keeps Pathfinder's qubits functional is a gas-driven cooling system that gets there in stages:
 
 1. Room temperature starts around **~300 K**.
 2. **Helium compressors** chill the entire system down to **4 K**.
 3. A second, separate gas-handling cooling loop then pushes the *internal* temperature down further, to **≤ 10 mK**.
 
-For context: **10 mK is roughly 270 times colder than deep space.** That extreme cold isn't for show — it's necessary to keep qubits in their fragile quantum states. Without it, the system rapidly loses quantum information.
+For context: **10 mK is roughly 270 times colder than deep space.** That extreme cold is necessary to keep qubits in their fragile quantum states. Without it, the system rapidly loses quantum information.
 
 ### 5. Noise: decoherence and its sources
 
 **Decoherence** is what happens when a qubit's superposition breaks down and the system loses quantum information. It can show up as a bit flip, a phase flip, or some other form of corrupted information — and it's one of the single biggest roadblocks to scaling up the number of qubits in a working system.
 
-<p align="center"><img src="assets/decoherence.png" alt="Illustration of decoherence breaking a qubit's superposition" width="480"></p>
+<p align="center"><img src="./images/assets/decoherence.png" alt="Illustration of decoherence breaking a qubit's superposition" width="480"></p>
 
-Quantum states are delicate, and almost any disturbance can interrupt a qubit's superposition — along with anything it's entangled with, potentially breaking the whole system. Common sources of that disturbance:
+Quantum states are delicate, and almost any disturbance can interrupt a qubit's superposition, along with anything it's entangled with, potentially breaking the whole system. Common sources of that disturbance:
 
 - Heat
 - Vibrations
@@ -250,9 +246,9 @@ Quantum states are delicate, and almost any disturbance can interrupt a qubit's 
 
 ### 7. Where this is headed
 
-<p align="center"><img src="assets/quantum-computing-timeline.png" alt="Timeline of quantum computing development" width="560"></p>
+<p align="center"><img src="./images/assets/quantum-computing-timeline.png" alt="Timeline of quantum computing development" width="560"></p>
 
-Roadmaps from major players (IBM's among them) point toward steadily increasing qubit counts, better error correction, and improving reliability over the coming years — but as the source material for this lesson put it plainly: **we've barely scratched the surface yet.**
+Roadmaps from major players (IBM's among them) point toward steadily increasing qubit counts, better error correction, and improving reliability over the coming years. However, **we've barely scratched the surface yet.**
 
 ---
 
